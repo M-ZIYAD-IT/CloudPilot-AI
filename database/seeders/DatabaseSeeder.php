@@ -5,12 +5,8 @@ namespace Database\Seeders;
 use App\Actions\GenerateReport;
 use App\Models\Answer;
 use App\Models\Assessment;
-use App\Models\EngineVersion;
 use App\Models\Organization;
-use App\Models\PriceTable;
 use App\Models\User;
-use App\Scoring\RulesLoader;
-use App\Scoring\ScoringEngine;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,22 +15,12 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed the application's database with reference data plus dev-only demo
+     * data. Production seeds ReferenceDataSeeder alone - see its docblock.
      */
     public function run(): void
     {
-        $priceTableData = RulesLoader::load(ScoringEngine::PRICE_TABLE_VERSION, 'price-table');
-
-        $priceTable = PriceTable::create([
-            'version' => ScoringEngine::PRICE_TABLE_VERSION,
-            'as_of_date' => $priceTableData['_meta']['as_of_date'],
-            'data' => $priceTableData,
-        ]);
-
-        $engineVersion = EngineVersion::create([
-            'version' => ScoringEngine::VERSION,
-            'description' => 'MVP scoring engine v1: readiness score, platform recommendation, 6R map, compliance register, TCO bands',
-        ]);
+        $this->call(ReferenceDataSeeder::class);
 
         $organization = Organization::create([
             'name' => 'Acme Test Co',
