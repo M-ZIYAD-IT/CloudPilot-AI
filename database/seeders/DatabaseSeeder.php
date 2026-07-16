@@ -2,13 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Actions\GenerateReport;
 use App\Models\Answer;
 use App\Models\Assessment;
 use App\Models\EngineVersion;
 use App\Models\Organization;
 use App\Models\PriceTable;
-use App\Models\Report;
 use App\Models\User;
+use App\Scoring\RulesLoader;
+use App\Scoring\ScoringEngine;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,6 +23,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $priceTableData = RulesLoader::load(ScoringEngine::PRICE_TABLE_VERSION, 'price-table');
+
+        $priceTable = PriceTable::create([
+            'version' => ScoringEngine::PRICE_TABLE_VERSION,
+            'as_of_date' => $priceTableData['_meta']['as_of_date'],
+            'data' => $priceTableData,
+        ]);
+
+        $engineVersion = EngineVersion::create([
+            'version' => ScoringEngine::VERSION,
+            'description' => 'MVP scoring engine v1: readiness score, platform recommendation, 6R map, compliance register, TCO bands',
+        ]);
+
         $organization = Organization::create([
             'name' => 'Acme Test Co',
             'slug' => 'acme-test-co',
@@ -58,35 +73,36 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $answers = [
-            ['question_key' => 'business.driver', 'value' => ['cost_reduction']],
-            ['question_key' => 'infrastructure.location', 'value' => ['own_server_room']],
-            ['question_key' => 'compliance.regulations', 'value' => ['pdpl', 'nca_ecc']],
+            'business_driver' => ['Cost reduction'],
+            'business_timeline' => '3-12 months',
+            'business_company_size' => '51-200',
+            'business_industry' => 'Retail / e-commerce',
+            'business_countries' => ['Saudi Arabia'],
+            'infra_location' => 'Own server room',
+            'infra_hardware_age' => 'Refresh due within 6 months',
+            'compliance_data_categories' => ['PII', 'Payment / PCI'],
+            'compliance_regulations' => ['PDPL (Saudi)', 'NCA ECC (Saudi)'],
+            'compliance_data_residency' => 'Yes, required',
+            'budget_annual_spend' => '$50k - $250k',
+            'budget_capex_opex' => 'OpEx preferred',
         ];
 
-        foreach ($answers as $answer) {
+        foreach ($answers as $questionKey => $value) {
             Answer::create([
                 'assessment_id' => $assessment->id,
-                ...$answer,
+                'question_key' => $questionKey,
+                'value' => $value,
             ]);
         }
 
-        $priceTable = PriceTable::create([
-            'version' => 'v1',
-            'as_of_date' => now()->toDateString(),
-            'data' => ['note' => 'placeholder MVP price table, populated in Phase 2'],
+        $assessment->apps()->create([
+            'name' => 'In-house Order Management System',
+            'category' => 'Custom application',
+            'is_cots' => false,
+            'vendor_supported' => null,
+            'licensing_tied_to_hardware' => true,
         ]);
 
-        $engineVersion = EngineVersion::create([
-            'version' => 'v1',
-            'description' => 'MVP scoring engine, placeholder until Phase 2',
-        ]);
-
-        Report::create([
-            'assessment_id' => $assessment->id,
-            'price_table_id' => $priceTable->id,
-            'engine_version_id' => $engineVersion->id,
-            'answers_snapshot' => $assessment->answers()->get(['question_key', 'value'])->toArray(),
-            'generated_at' => now(),
-        ]);
+        app(GenerateReport::class)->execute($assessment);
     }
 }

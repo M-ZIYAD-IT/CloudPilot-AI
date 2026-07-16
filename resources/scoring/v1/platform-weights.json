@@ -1,0 +1,39 @@
+{
+  "_meta": {
+    "note": "Coarse v1 additive model: start from a base score per platform, add/subtract per-answer adjustments, clamp to 0-100, recommend the top score. Regional-region availability (which exact KSA/GCC regions AWS/Azure/GCP operate) changes over time - verify current regional footprint before presenting this to a customer; don't treat these adjustments as a substitute for that check."
+  },
+  "platforms": ["aws", "azure", "gcp", "stc_cloud", "oracle_jeddah"],
+  "base": { "aws": 60, "azure": 60, "gcp": 55, "stc_cloud": 50, "oracle_jeddah": 45 },
+  "adjustments": {
+    "business_countries": {
+      "Saudi Arabia": { "stc_cloud": 20, "oracle_jeddah": 20, "aws": 5, "azure": 5 },
+      "Other GCC": { "stc_cloud": 5, "oracle_jeddah": 5, "aws": 5, "azure": 5 }
+    },
+    "compliance_data_residency": {
+      "Yes, required": { "stc_cloud": 25, "oracle_jeddah": 20, "aws": -10, "azure": -5, "gcp": -10 },
+      "No": { "aws": 5, "azure": 5, "gcp": 5 }
+    },
+    "business_driver": {
+      "Disaster recovery": { "aws": 10, "azure": 10, "gcp": 5 },
+      "Cost reduction": { "stc_cloud": 10, "gcp": 5 },
+      "Security incidents": { "aws": 5, "azure": 10 },
+      "Scalability": { "aws": 10, "gcp": 10, "azure": 5 },
+      "Expansion to new markets": { "aws": 10, "azure": 5, "gcp": 5 }
+    },
+    "budget_capex_opex": {
+      "OpEx preferred": { "aws": 5, "azure": 5, "gcp": 5 }
+    },
+    "budget_annual_spend": {
+      "< $50k": { "stc_cloud": 10, "gcp": 5 },
+      "> $1M": { "aws": 5, "azure": 5 }
+    },
+    "infra_virtualization": {
+      "VMware": { "azure": 10, "aws": 5 }
+    },
+    "business_industry": {
+      "Healthcare": { "azure": 10, "aws": 5 },
+      "Financial services": { "azure": 10, "aws": 5, "oracle_jeddah": 5 },
+      "Government / public sector": { "stc_cloud": 15, "oracle_jeddah": 10 }
+    }
+  }
+}

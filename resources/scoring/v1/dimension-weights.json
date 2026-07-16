@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "note": "Coarse v1 weights (0-100 per choice, per dimension). 'none' is SurveyJS's built-in value for the 'I don't know' choice on every question. Unknowns are scored slightly below neutral (not a penalty, but 'we can't yet confirm this is ready') rather than assumed favorably. Revisit these numbers after the first pilot batch (Phase 5) rather than treating them as authoritative today.",
+    "people_dimension": "Omitted from v1. The MVP survey (Phase 1) only covers sections A/B/D/G; team/operational readiness (section H) was descoped, so there is no signal to score it honestly."
+  },
+  "infrastructure": {
+    "infra_location": { "Own server room": 20, "Colocation": 40, "Managed hosting": 60, "Hybrid (some cloud already)": 85, "none": 35 },
+    "infra_server_count": { "0-10": 80, "11-50": 65, "51-200": 45, "200+": 30, "none": 50 },
+    "infra_virtualization": { "VMware": 70, "Hyper-V": 65, "None": 35, "none": 45 },
+    "infra_os": { "Windows Server 2012 or older": 15, "Windows Server 2016+": 70, "Linux": 80, "Other": 50, "none": 40 },
+    "infra_storage_footprint": { "< 10 TB": 85, "10-50 TB": 65, "50-200 TB": 45, "200+ TB": 30, "none": 50 },
+    "infra_storage_split": { "Mostly hot": 75, "Roughly even split": 55, "Mostly archival": 40, "none": 50 },
+    "infra_network": { "Single site": 80, "Multiple sites / branches": 55, "VPN": 60, "MPLS": 40, "none": 45 },
+    "infra_hardware_age": { "Refresh due within 6 months": 90, "Refresh due in 6-12 months": 75, "Refresh due in 1-3 years": 50, "No refresh planned": 30, "none": 40 }
+  },
+  "data": {
+    "compliance_data_categories": { "PII": 55, "Payment / PCI": 40, "Health records": 35, "Government data": 30, "Financial records": 40, "none": 60 },
+    "compliance_regulations": { "GDPR": 55, "HIPAA": 40, "PCI-DSS": 40, "SOC 2": 65, "ISO 27001": 70, "PDPL (Saudi)": 50, "NCA ECC (Saudi)": 35, "SAMA (Saudi)": 35, "CST cloud regulations (Saudi)": 45, "none": 60 },
+    "compliance_data_residency": { "Yes, required": 35, "No": 80, "none": 45 },
+    "compliance_retention": { "Yes, clearly defined": 75, "No": 40, "none": 45 }
+  },
+  "security": {
+    "compliance_last_audit": { "Within the last year": 85, "1-2 years ago": 55, "More than 2 years ago / never": 25, "none": 35 },
+    "compliance_retention": { "Yes, clearly defined": 70, "No": 40, "none": 40 }
+  },
+  "finance": {
+    "budget_annual_spend": { "< $50k": 65, "$50k - $250k": 65, "$250k - $1M": 65, "> $1M": 65, "none": 35 },
+    "budget_migration_budget": { "< $25k": 65, "$25k - $100k": 65, "$100k - $500k": 65, "> $500k": 65, "none": 35 },
+    "budget_capex_opex": { "CapEx preferred": 55, "OpEx preferred": 80, "No strong preference": 60, "none": 40 },
+    "budget_commitment_appetite": { "Open to 1-3 year commitment": 75, "Prefer pay-as-you-go": 70, "none": 40 }
+  }
+}

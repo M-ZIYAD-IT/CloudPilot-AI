@@ -1,0 +1,13 @@
+{
+  "_meta": {
+    "note": "Curated static price table, v1. Illustrative USD estimates for representative SKUs, not live pricing. Always displayed with this as_of_date and an 'estimate, not a quote' disclaimer per the idea doc's risk #1. Refresh manually until live pricing APIs are justified (v2 backlog).",
+    "as_of_date": "2026-07-16"
+  },
+  "monthly_usd": {
+    "aws": { "small_instance": 35, "medium_instance": 140, "large_instance": 560, "storage_per_gb": 0.023, "egress_per_gb": 0.09 },
+    "azure": { "small_instance": 33, "medium_instance": 135, "large_instance": 540, "storage_per_gb": 0.021, "egress_per_gb": 0.087 },
+    "gcp": { "small_instance": 30, "medium_instance": 125, "large_instance": 500, "storage_per_gb": 0.02, "egress_per_gb": 0.085 },
+    "stc_cloud": { "small_instance": 28, "medium_instance": 115, "large_instance": 460, "storage_per_gb": 0.019, "egress_per_gb": 0.05 },
+    "oracle_jeddah": { "small_instance": 27, "medium_instance": 110, "large_instance": 440, "storage_per_gb": 0.018, "egress_per_gb": 0.045 }
+  }
+}

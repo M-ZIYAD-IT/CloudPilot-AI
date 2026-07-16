@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "note": "KSA-first curated compliance matrix, v1. This is the product's moat per the idea doc, and per the plan's standing rules it needs an owner and a review date - NOT a substitute for legal/compliance sign-off. Regulatory requirements and provider certifications/regions change; verify current status before a report is shown to a customer for a regulated industry.",
+    "review_owner": "unassigned - set before first paid engagement",
+    "last_reviewed": "2026-07-16"
+  },
+  "regulations": {
+    "PDPL (Saudi)": {
+      "requirement": "Personal data of Saudi residents must be processed under PDPL principles; cross-border transfer requires an adequacy decision or SDAIA approval unless data stays in-Kingdom.",
+      "satisfying_providers": ["stc_cloud", "oracle_jeddah"],
+      "notes": "Global hyperscalers may satisfy this only via a specific in-Kingdom region configured for data residency; confirm current regional availability and configuration before relying on this."
+    },
+    "NCA ECC (Saudi)": {
+      "requirement": "Applies to organizations operating Critical National Infrastructure; mandates a defined cybersecurity control baseline regardless of hosting location.",
+      "satisfying_providers": ["stc_cloud", "oracle_jeddah", "aws", "azure", "gcp"],
+      "notes": "ECC is a controls framework the customer must implement themselves; no cloud provider is 'ECC-compliant' on the customer's behalf. Flag as a shared-responsibility item, not a provider selector."
+    },
+    "SAMA (Saudi)": {
+      "requirement": "Saudi Central Bank cybersecurity and IT outsourcing framework for regulated financial entities; typically expects in-Kingdom hosting or an explicit SAMA no-objection for offshore cloud use.",
+      "satisfying_providers": ["stc_cloud", "oracle_jeddah"],
+      "notes": "Financial-sector customers should treat this as a hard blocker pending explicit legal/regulator sign-off, not just a scoring adjustment."
+    },
+    "CST cloud regulations (Saudi)": {
+      "requirement": "Communications, Space & Technology Commission's Cloud Computing Regulatory Framework governs CSP registration tiers and customer data classification handling in KSA.",
+      "satisfying_providers": ["stc_cloud", "oracle_jeddah", "aws", "azure", "gcp"],
+      "notes": "Verify the specific provider's current CST registration tier for the customer's data classification; this changes over time."
+    },
+    "GDPR": {
+      "requirement": "EU personal data requires an adequate legal basis for transfer outside the EEA (standard contractual clauses, an adequacy decision, or in-region processing).",
+      "satisfying_providers": ["aws", "azure", "gcp"],
+      "notes": "All three operate EU regions and offer standard contractual clauses. Regional KSA-only providers are not typically applicable unless they have an EU presence."
+    },
+    "HIPAA": {
+      "requirement": "US health data requires a signed Business Associate Agreement (BAA) with the hosting provider plus appropriate technical safeguards.",
+      "satisfying_providers": ["aws", "azure", "gcp"],
+      "notes": "Requires actively signing a BAA with the specific provider; not automatic just by choosing them."
+    },
+    "PCI-DSS": {
+      "requirement": "Payment card data requires hosting on PCI DSS-attested infrastructure and a compliant application architecture.",
+      "satisfying_providers": ["aws", "azure", "gcp", "stc_cloud", "oracle_jeddah"],
+      "notes": "Provider infrastructure attestation is necessary but not sufficient; the customer's application and processes must also be assessed."
+    },
+    "SOC 2": {
+      "requirement": "Service organization controls reporting; relevant when the customer's own product is audited and depends on subprocessor attestations.",
+      "satisfying_providers": ["aws", "azure", "gcp"],
+      "notes": "Major hyperscalers publish SOC 2 reports on request; confirm current report coverage dates."
+    },
+    "ISO 27001": {
+      "requirement": "Information security management system certification, often required by enterprise customers as a vendor-selection gate.",
+      "satisfying_providers": ["aws", "azure", "gcp", "stc_cloud", "oracle_jeddah"],
+      "notes": "Most major providers hold this at the infrastructure layer; the customer's own environment is certified separately."
+    }
+  }
+}
