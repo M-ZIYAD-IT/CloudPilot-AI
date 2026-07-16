@@ -4,15 +4,43 @@ namespace Tests\Feature;
 
 use App\Models\Answer;
 use App\Models\Assessment;
+use App\Models\EngineVersion;
 use App\Models\Organization;
+use App\Models\PriceTable;
 use App\Models\SurveyEvent;
 use App\Models\User;
+use App\Scoring\RulesLoader;
+use App\Scoring\ScoringEngine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class SurveyFlowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Completing a survey triggers the Phase 3 report pipeline (QUEUE_CONNECTION=sync
+        // in phpunit.xml runs it inline), which needs a price table + engine version to exist -
+        // exactly as they would in production, seeded by DatabaseSeeder before real usage.
+        Mail::fake();
+
+        $priceTableData = RulesLoader::load(ScoringEngine::PRICE_TABLE_VERSION, 'price-table');
+
+        PriceTable::create([
+            'version' => ScoringEngine::PRICE_TABLE_VERSION,
+            'as_of_date' => $priceTableData['_meta']['as_of_date'],
+            'data' => $priceTableData,
+        ]);
+
+        EngineVersion::create([
+            'version' => ScoringEngine::VERSION,
+            'description' => 'test',
+        ]);
+    }
 
     private function makeUserWithOrganization(): User
     {

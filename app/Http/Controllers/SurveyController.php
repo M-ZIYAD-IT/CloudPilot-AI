@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmailReport;
+use App\Jobs\GenerateNarrative;
+use App\Jobs\RenderReport;
+use App\Jobs\ScoreAssessment;
 use App\Models\Answer;
 use App\Models\Assessment;
 use App\Models\Organization;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\View\View;
 
 class SurveyController extends Controller
@@ -99,6 +104,13 @@ class SurveyController extends Controller
         ]);
 
         $assessment->surveyEvents()->create(['event' => 'survey_completed']);
+
+        Bus::chain([
+            new ScoreAssessment($assessment),
+            new GenerateNarrative($assessment),
+            new RenderReport($assessment),
+            new EmailReport($assessment),
+        ])->dispatch();
 
         return response()->json(['redirect' => route('survey.thank-you', $assessment)]);
     }

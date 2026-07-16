@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show')->middleware('signed');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

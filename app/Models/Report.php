@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['assessment_id', 'price_table_id', 'engine_version_id', 'answers_snapshot', 'generated_at'])]
+#[Fillable(['assessment_id', 'price_table_id', 'engine_version_id', 'answers_snapshot', 'narrative', 'narrative_error', 'html_content', 'generated_at'])]
 class Report extends Model
 {
     protected function casts(): array
     {
         return [
             'answers_snapshot' => 'array',
+            'narrative' => 'array',
             'generated_at' => 'datetime',
         ];
     }
