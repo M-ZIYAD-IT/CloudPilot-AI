@@ -1,0 +1,320 @@
+{
+  "title": "Cloud Migration Readiness Assessment",
+  "showProgressBar": "top",
+  "showQuestionNumbers": "off",
+  "completeText": "Submit assessment",
+  "pages": [
+    {
+      "name": "business",
+      "title": "Business Context & Drivers",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "business_driver",
+          "title": "What is driving the move to the cloud?",
+          "choices": [
+            "Cost reduction", "Scalability", "End-of-life hardware", "Remote work",
+            "Disaster recovery", "Security incidents", "Expansion to new markets", "M&A"
+          ],
+          "choicesOrder": "none",
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "business_timeline",
+          "title": "What is the expected timeline for the move?",
+          "choices": ["Urgent (< 3 months)", "3-12 months", "Exploratory, no fixed timeline"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "business_constraints",
+          "title": "Are there upcoming events that constrain timing?",
+          "choices": ["Datacenter lease expiry", "License renewals", "Upcoming audits", "Peak seasons"],
+          "showNoneItem": true,
+          "noneText": "None of these / I don't know"
+        },
+        {
+          "type": "checkbox",
+          "name": "business_success",
+          "title": "What does success look like in 12 months?",
+          "choices": ["Specific cost target", "Specific uptime target", "Faster deployment speed"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "business_company_size",
+          "title": "Company size (employees)",
+          "choices": ["1-50", "51-200", "201-1000", "1000+"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "dropdown",
+          "name": "business_industry",
+          "title": "Industry",
+          "choices": [
+            "Healthcare", "Financial services", "Retail / e-commerce", "Manufacturing",
+            "Government / public sector", "Education", "Technology", "Other"
+          ],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "business_countries",
+          "title": "Countries of operation",
+          "choices": ["Saudi Arabia", "Other GCC", "Rest of Middle East", "Europe", "North America", "Other"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        }
+      ]
+    },
+    {
+      "name": "infrastructure",
+      "title": "Current Infrastructure (As-Is State)",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "infra_location",
+          "title": "Where do your workloads run today?",
+          "choices": ["Own server room", "Colocation", "Managed hosting", "Hybrid (some cloud already)"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "infra_server_count",
+          "title": "How many physical servers / VMs do you run?",
+          "choices": ["0-10", "11-50", "51-200", "200+"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "infra_virtualization",
+          "title": "Virtualization platform in use",
+          "choices": ["VMware", "Hyper-V", "None"],
+          "showNoneItem": true,
+          "noneText": "I don't know / Other"
+        },
+        {
+          "type": "checkbox",
+          "name": "infra_os",
+          "title": "Operating systems in use",
+          "choices": [
+            "Windows Server 2012 or older", "Windows Server 2016+",
+            "Linux", "Other"
+          ],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "infra_storage_footprint",
+          "title": "Total storage footprint",
+          "choices": ["< 10 TB", "10-50 TB", "50-200 TB", "200+ TB"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "infra_storage_split",
+          "title": "How much of that storage is hot (actively used) vs archival?",
+          "choices": ["Mostly hot", "Roughly even split", "Mostly archival"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "checkbox",
+          "name": "infra_network",
+          "title": "Network setup",
+          "choices": ["Single site", "Multiple sites / branches", "VPN", "MPLS"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "infra_hardware_age",
+          "title": "Hardware age and refresh status",
+          "choices": [
+            "Refresh due within 6 months", "Refresh due in 6-12 months",
+            "Refresh due in 1-3 years", "No refresh planned"
+          ],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        }
+      ]
+    },
+    {
+      "name": "apps",
+      "title": "Critical Applications",
+      "elements": [
+        {
+          "type": "paneldynamic",
+          "name": "declared_apps",
+          "title": "List up to 5 critical applications",
+          "templateTitle": "Application {panelIndex}",
+          "panelAddText": "Add another application",
+          "panelRemoveText": "Remove",
+          "minPanelCount": 0,
+          "maxPanelCount": 5,
+          "panelCount": 1,
+          "templateElements": [
+            {
+              "type": "text",
+              "name": "name",
+              "title": "Application name",
+              "isRequired": true
+            },
+            {
+              "type": "dropdown",
+              "name": "category",
+              "title": "Category",
+              "choices": [
+                "ERP", "CRM", "E-commerce", "File shares", "Custom application",
+                "Database", "BI / analytics", "Email", "Other"
+              ],
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "is_cots",
+              "title": "Is this commercial off-the-shelf (COTS) or custom-built?",
+              "choices": [
+                { "value": true, "text": "Commercial off-the-shelf" },
+                { "value": false, "text": "Custom-built" }
+              ],
+              "isRequired": true
+            },
+            {
+              "type": "radiogroup",
+              "name": "vendor_supported",
+              "title": "Is the vendor still actively supporting it?",
+              "choices": [
+                { "value": true, "text": "Yes" },
+                { "value": false, "text": "No" }
+              ],
+              "visibleIf": "{panel.is_cots} = true",
+              "showNoneItem": true,
+              "noneText": "I don't know"
+            },
+            {
+              "type": "radiogroup",
+              "name": "licensing_tied_to_hardware",
+              "title": "Is licensing tied to specific on-prem hardware?",
+              "choices": [
+                { "value": true, "text": "Yes" },
+                { "value": false, "text": "No" }
+              ],
+              "showNoneItem": true,
+              "noneText": "I don't know"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "compliance",
+      "title": "Data, Compliance & Sovereignty",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "compliance_data_categories",
+          "title": "What categories of sensitive data do you hold?",
+          "choices": ["PII", "Payment / PCI", "Health records", "Government data", "Financial records"],
+          "showNoneItem": true,
+          "noneText": "None of these / I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "compliance_regulations",
+          "title": "Which regulations apply to you?",
+          "choices": [
+            "GDPR", "HIPAA", "PCI-DSS", "SOC 2", "ISO 27001",
+            "PDPL (Saudi)", "NCA ECC (Saudi)", "SAMA (Saudi)", "CST cloud regulations (Saudi)"
+          ],
+          "showNoneItem": true,
+          "noneText": "None of these / I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "compliance_data_residency",
+          "title": "Must your data physically stay in-country (data residency)?",
+          "choices": ["Yes, required", "No"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "compliance_last_audit",
+          "title": "When was your last security audit?",
+          "choices": ["Within the last year", "1-2 years ago", "More than 2 years ago / never"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "compliance_retention",
+          "title": "Do you have defined data retention or legal hold obligations?",
+          "choices": ["Yes, clearly defined", "No"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        }
+      ]
+    },
+    {
+      "name": "budget",
+      "title": "Budget & Cost Model",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "budget_annual_spend",
+          "title": "Current annual IT infrastructure spend (hardware, licenses, hosting, power/cooling, IT payroll share)",
+          "choices": ["< $50k", "$50k - $250k", "$250k - $1M", "> $1M"],
+          "showNoneItem": true,
+          "noneText": "I don't know",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "budget_migration_budget",
+          "title": "Budget available for the migration project itself (one-time)",
+          "choices": ["< $25k", "$25k - $100k", "$100k - $500k", "> $500k"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "budget_capex_opex",
+          "title": "Finance preference: CapEx (buy hardware) vs OpEx (subscription)?",
+          "choices": ["CapEx preferred", "OpEx preferred", "No strong preference"],
+          "showNoneItem": true,
+          "noneText": "I don't know"
+        },
+        {
+          "type": "radiogroup",
+          "name": "budget_commitment_appetite",
+          "title": "Appetite for commitment discounts (1-3 year reserved/committed use vs pay-as-you-go)?",
+          "choices": ["Open to 1-3 year commitment", "Prefer pay-as-you-go"],
+          "showNoneItem": true,
+          "noneText": "Undecided / I don't know"
+        }
+      ]
+    }
+  ]
+}

@@ -41,4 +41,9 @@ class Assessment extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function surveyEvents(): HasMany
+    {
+        return $this->hasMany(SurveyEvent::class);
+    }
 }
