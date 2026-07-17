@@ -46,6 +46,13 @@ class SurveyController extends Controller
 
         $data = $assessment->answers()->pluck('value', 'question_key')->all();
 
+        // Default the client-name field to the account's own organization name —
+        // covers the common self-serve case for free, while still letting a
+        // consultant overwrite it with their client's name before submitting.
+        if (! array_key_exists('client_name', $data)) {
+            $data['client_name'] = $assessment->organization->name;
+        }
+
         $declaredApps = $assessment->apps()->get()->map(fn ($app) => [
             'name' => $app->name,
             'category' => $app->category,

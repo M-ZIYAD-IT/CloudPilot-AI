@@ -33,9 +33,17 @@ class RenderReport implements ShouldQueue
 
         $tco = $result['tco'];
 
+        // The account organization owns the assessment, but the report is
+        // titled after whoever it's actually for — the same account can run
+        // assessments for multiple clients (e.g. a consultant), so the two
+        // aren't always the same name.
+        $clientName = $report->answers_snapshot['answers']['client_name']
+            ?? $this->assessment->organization->name;
+
         $html = View::make('reports.show', [
             'report' => $report,
-            'assessment' => $this->assessment,
+            'assessment' => $this->assessment->loadMissing('organization'),
+            'clientName' => $clientName,
             'result' => $result,
             'narrative' => $report->narrative,
             'radarChartUrl' => QuickChartUrl::radar(

@@ -1,4 +1,7 @@
 <x-guest-layout>
+    <h1 class="text-display-md text-ink mb-xs">Create your account</h1>
+    <p class="text-body text-ink-muted mb-lg">Set up your organization to start a readiness assessment.</p>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -46,8 +49,8 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+        <div class="flex items-center justify-between mt-6">
+            <a class="text-caption text-ink-muted hover:text-ink underline underline-offset-4 focus:outline-none" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 

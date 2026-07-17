@@ -9,6 +9,14 @@
       "title": "Business Context & Drivers",
       "elements": [
         {
+          "type": "text",
+          "name": "client_name",
+          "title": "Company or client name",
+          "description": "The organization this assessment is for — shown on the report. Defaults to your account name, but change it if you're running this on behalf of a client.",
+          "isRequired": true,
+          "maxLength": 120
+        },
+        {
           "type": "checkbox",
           "name": "business_driver",
           "title": "What is driving the move to the cloud?",
