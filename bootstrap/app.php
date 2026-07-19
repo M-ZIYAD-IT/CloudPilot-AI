@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         // URL from the origin's own (wrong) scheme and always 403s.
         $middleware->trustProxies(at: '*');
 
+        // Stream's payment webhook can't send a Laravel CSRF token; it's
+        // authenticated instead via its own HMAC signature header, verified
+        // in ReportPaymentController::webhook().
+        $middleware->validateCsrfTokens(except: ['webhooks/streampay']);
+
         $middleware->alias([
             'scope.organization' => ScopeToOrganization::class,
         ]);

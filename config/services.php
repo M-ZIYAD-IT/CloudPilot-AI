@@ -40,4 +40,17 @@ return [
         'model' => env('ANTHROPIC_MODEL', 'claude-sonnet-5'),
     ],
 
+    'report_webhook' => [
+        'url' => env('REPORT_WEBHOOK_URL'),
+    ],
+
+    'streampay' => [
+        'base_url' => env('STREAMPAY_BASE_URL', 'https://stream-app-service.streampay.sa/api/v2'),
+        'api_key' => env('STREAMPAY_API_KEY'),
+        'api_secret' => env('STREAMPAY_API_SECRET'),
+        'webhook_secret' => env('STREAMPAY_WEBHOOK_SECRET'),
+        'product_id' => env('STREAMPAY_PRODUCT_ID'),
+        'currency' => env('STREAMPAY_CURRENCY', 'SAR'),
+    ],
+
 ];

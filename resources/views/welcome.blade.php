@@ -13,9 +13,15 @@
 </head>
 <body class="font-sans antialiased bg-canvas text-ink">
     <div class="min-h-screen flex flex-col relative overflow-hidden">
+        {{-- Fixed dot-grid texture behind every section, so the sides read as
+             designed backdrop rather than dead space. --}}
+        <div class="bg-dot-grid"></div>
+
         {{-- Ambient atmosphere: soft blurred color behind the hero, never in the foreground. --}}
         <div class="bg-glow -top-40 right-[-10%] h-[560px] w-[560px] bg-gradient-violet/25"></div>
         <div class="bg-glow top-[420px] left-[-15%] h-[480px] w-[480px] bg-accent-blue/10"></div>
+        <div class="bg-glow top-[900px] right-[-12%] h-[520px] w-[520px] bg-gradient-magenta/10"></div>
+        <div class="bg-glow bottom-[-140px] left-[-10%] h-[520px] w-[520px] bg-gradient-orange/10"></div>
 
         <header class="relative max-w-6xl w-full mx-auto px-6 sm:px-8 py-6 flex items-center justify-between">
             <div class="flex items-center gap-2">

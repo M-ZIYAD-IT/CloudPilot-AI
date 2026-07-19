@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportPaymentController;
 use App\Http\Controllers\SurveyController;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,9 @@ Route::get('/', function () {
 });
 
 Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show')->middleware('signed');
+Route::get('/reports/{report}/checkout', [ReportPaymentController::class, 'checkout'])->name('reports.payment.checkout');
+Route::get('/reports/{report}/payment/callback', [ReportPaymentController::class, 'callback'])->name('reports.payment.callback');
+Route::post('/webhooks/streampay', [ReportPaymentController::class, 'webhook'])->name('webhooks.streampay');
 
 Route::get('/dashboard', function () {
     $organization = app(Organization::class);

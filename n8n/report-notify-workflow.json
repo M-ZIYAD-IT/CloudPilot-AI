@@ -1,0 +1,191 @@
+{
+  "name": "CloudPilot Report Notify",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cv-copilot",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "7ecfa33f-8a5a-4aa2-9cd4-d0a9e7f1919a",
+      "name": "1. Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-672, 48],
+      "webhookId": "cv-copilot"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "company",
+              "type": "string",
+              "value": "={{ $json.body.organization }}"
+            },
+            {
+              "id": "a2",
+              "name": "clientName",
+              "type": "string",
+              "value": "={{ $json.body.client_name }}"
+            },
+            {
+              "id": "a3",
+              "name": "email",
+              "type": "string",
+              "value": "={{ $json.body.email }}"
+            },
+            {
+              "id": "a4",
+              "name": "readinessOverall",
+              "type": "number",
+              "value": "={{ $json.body.readiness.overall }}"
+            },
+            {
+              "id": "a5",
+              "name": "platformRecommended",
+              "type": "string",
+              "value": "={{ ({aws:'AWS', azure:'Azure', gcp:'GCP', stc_cloud:'STC Cloud', oracle_jeddah:'Oracle Cloud (Jeddah)'})[$json.body.platform.recommended] ?? $json.body.platform.recommended }}"
+            },
+            {
+              "id": "a6",
+              "name": "tcoCurrent",
+              "type": "string",
+              "value": "={{ $json.body.tco.current_annual_estimate }}"
+            },
+            {
+              "id": "a7",
+              "name": "tcoExpected",
+              "type": "string",
+              "value": "={{ $json.body.tco.cloud_annual_projection.expected }}"
+            },
+            {
+              "id": "a8",
+              "name": "reportUrl",
+              "type": "string",
+              "value": "={{ $json.body.report_url }}"
+            },
+            {
+              "id": "a9",
+              "name": "executiveSummary",
+              "type": "string",
+              "value": "={{ $json.body.narrative?.executive_summary ?? '' }}"
+            },
+            {
+              "id": "a10",
+              "name": "reportPdfBase64",
+              "type": "string",
+              "value": "={{ $json.body.report_pdf_base64 }}"
+            },
+            {
+              "id": "a11",
+              "name": "reportPdfFilename",
+              "type": "string",
+              "value": "={{ $json.body.report_pdf_filename }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ef23c0be-3de1-4cfe-b552-89f9486544d2",
+      "name": "2. Extract Report Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-448, 48]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "reportPdfBase64",
+        "binaryPropertyName": "data",
+        "options": {
+          "fileName": "={{ $json.reportPdfFilename }}",
+          "mimeType": "application/pdf"
+        }
+      },
+      "id": "b1c2d3e4-5f60-4a7b-8c9d-0e1f2a3b4c5d",
+      "name": "3b. Base64 to PDF",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [-208, 160]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true } }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              { "name": "Access-Control-Allow-Origin", "value": "*" }
+            ]
+          }
+        }
+      },
+      "id": "36561e25-e335-4c6a-8a97-d0dde8cae619",
+      "name": "3. Respond to Caller",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [-208, -64]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('2. Extract Report Fields').item.json.email }}",
+        "subject": "=Your CloudPilot AI Report — {{ $('2. Extract Report Fields').item.json.clientName }} at {{ $('2. Extract Report Fields').item.json.company }}",
+        "emailType": "text",
+        "message": "=CloudPilot AI — Cloud Readiness Report\n========================================\n\nCompany: {{ $('2. Extract Report Fields').item.json.company }}\nPrepared for: {{ $('2. Extract Report Fields').item.json.clientName }}\n\nREADINESS SCORE: {{ $('2. Extract Report Fields').item.json.readinessOverall }} / 100\n\nRECOMMENDED PLATFORM: {{ $('2. Extract Report Fields').item.json.platformRecommended }}\n\nESTIMATED ANNUAL CLOUD COST: {{ $('2. Extract Report Fields').item.json.tcoExpected }} (current on-prem: {{ $('2. Extract Report Fields').item.json.tcoCurrent }})\n\n----------------------------------------\n\n{{ $('2. Extract Report Fields').item.json.executiveSummary }}\n\n----------------------------------------\n\nYour full report is attached as a PDF.\n\nThis report is a directional planning estimate, not a binding quote from any cloud provider.",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              { "property": "data" }
+            ]
+          }
+        }
+      },
+      "id": "2739cdce-21f5-4c72-829b-e26536d0e5d3",
+      "name": "4. Email Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [16, 160],
+      "webhookId": "cb817b1f-c8a6-4261-93e4-3000f94cbab8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "agZT7QjcsDkDeezQ",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "1. Webhook": {
+      "main": [[{ "node": "2. Extract Report Fields", "type": "main", "index": 0 }]]
+    },
+    "2. Extract Report Fields": {
+      "main": [
+        [
+          { "node": "3. Respond to Caller", "type": "main", "index": 0 },
+          { "node": "3b. Base64 to PDF", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "3b. Base64 to PDF": {
+      "main": [[{ "node": "4. Email Report", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9ab0b6b5-1b50-4585-89ba-b6da322d6988",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "060cf82d01d2d1fbf432b163565b76ac4ed76b3d4930c6b765a5eb7bb975c9a0"
+  },
+  "nodeGroups": [],
+  "id": "JETuzhGaIPLgCSte",
+  "tags": []
+}
