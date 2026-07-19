@@ -25,7 +25,7 @@
 
         <header class="relative max-w-6xl w-full mx-auto px-6 sm:px-8 py-6 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <x-application-logo class="h-6 w-auto fill-current text-ink" />
+                <img src="{{ asset('images/cloudpilot-logo.png') }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
                 <span class="text-body-sm text-ink">{{ config('app.name') }}</span>
             </div>
 

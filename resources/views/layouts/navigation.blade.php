@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center gap-2">
                     <a href="{{ url('/') }}" class="flex items-center gap-2">
-                        <x-application-logo class="block h-6 w-auto fill-current text-ink" />
+                        <img src="{{ asset('images/cloudpilot-logo.png') }}" alt="{{ config('app.name') }}" class="block h-10 w-auto">
                         <span class="text-body-sm text-ink hidden sm:inline">{{ config('app.name') }}</span>
                     </a>
                 </div>

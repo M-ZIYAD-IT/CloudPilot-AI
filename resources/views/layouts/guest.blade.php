@@ -19,8 +19,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-canvas">
             <div>
                 <a href="/" class="flex items-center gap-2 text-ink">
-                    <x-application-logo class="w-8 h-8 fill-current text-ink" />
-                    <span class="text-body-sm text-ink">{{ config('app.name') }}</span>
+                    <img src="{{ asset('images/cloudpilot-logo.png') }}" alt="{{ config('app.name') }}" class="h-14 w-auto">
                 </a>
             </div>
 
